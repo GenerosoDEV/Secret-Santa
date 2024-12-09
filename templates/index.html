@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteio Amigo Oculto</title>
+    <link rel="stylesheet" href="../static/index.css">
+    <link rel="icon" href="../static/images/favicon.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <h1>Olá!</h1>
+        <h2>Informe os nomes dos participantes abaixo para que possa ser realizado o sorteio.</h2>
+        <form class="container-inputs" action="/api/start-raffle", method="POST">
+            <button id="btn-start">Iniciar sorteio</button>
+            <div id="inputs-participantes">
+                <input type="text" placeholder="Nome do 1º Participante" name="input-participante-1" id="input-participante-1" required>
+                <input type="text" placeholder="Nome do 2º Participante" name="input-participante-2" id="input-participante-2" required>
+                <input type="text" placeholder="Nome do 3º Participante" name="input-participante-3" id="input-participante-3" required>
+            </div>
+        </form>
+        <button id="btn-add">Adicionar</button>
+
+    </div>
+    <script>
+        const btnAdd = document.getElementById("btn-add")
+        const inputs = document.getElementById("inputs-participantes")
+        let qtdParticipante = 3
+
+        document.addEventListener("DOMContentLoaded", function () {
+            inputs.style.maxHeight = inputs.offsetHeight + "px"
+        })
+
+        btnAdd.addEventListener("click", function () {
+            qtdParticipante++
+            const newInput = document.createElement("input")
+            newInput.setAttribute("type", "text")
+            newInput.setAttribute("placeholder", `Nome do ${qtdParticipante}º Participante`)
+            newInput.setAttribute("name", `input-participante-${qtdParticipante}`)
+            newInput.setAttribute("id", `input-participante-${qtdParticipante}`)
+            inputs.appendChild(newInput);
+            inputs.scrollTop = inputs.scrollHeight;
+        })
+    </script>
+</body>
+</html>

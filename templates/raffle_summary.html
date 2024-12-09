@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado do Amigo Oculto</title>
+    <link rel="stylesheet" href="../static/summary.css">
+    <link rel="icon" href="../static/images/favicon.png" type="image/png">
+    
+</head>
+
+<body>
+    <div class="container">
+        <h1>Resultado do Amigo Oculto <a onclick="clipboardCopy(`${window.location.origin}/raffle/{{raffle_code}}`)"
+                href="/raffle/{{raffle_code}}">#{{raffle_code}}</a></h1>
+        <p>Participantes: </p>
+        <div id="participants">
+            {% for participant in participants %}
+            <label><span>{{participant}}</span><a onclick="copyLink('{{participant}}', '{{participants_links[participant]}}')">Copiar
+                    Link</a></label>
+            <script>document.addEventListener("DOMContentLoaded", function () {
+                    addToLinkList('{{participant}}', '{{participants_links[participant]}}')
+                })</script>
+            {% endfor %}
+        </div>
+    
+        <a onclick="copyAllLinks()">Copiar lista de links</a>
+    </div>
+</body>
+
+</html>
+
+
+<script>
+    let participantsLinks = {}
+
+    function addToLinkList(participant, link) {
+        participantsLinks[participant] = `${window.location.origin}/reveal/${link}`
+    }
+
+    function copyLink(participant, link) {
+        clipboardCopy(`${window.location.origin}/reveal/${link}`)
+        alert(`Você copiou o link do participante "${participant}"`)
+    }
+
+    function copyAllLinks() {
+        let stringListLinks = ""
+
+        Object.entries(participantsLinks).forEach(([participant, link]) => {
+            stringListLinks = `${stringListLinks}\n${participant}: ${link}`
+        });
+
+        clipboardCopy(stringListLinks)
+        alert("Você copiou a lista de links de todos os participantes!")
+    }
+
+    function clipboardCopy(string) {
+        navigator.clipboard.writeText(string)
+            .then(() => {
+            })
+            .catch(err => {
+                console.error('Erro ao copiar: ', err);
+            });
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const participants = document.getElementById("participants")
+        participants.style.maxHeight = window.innerHeight  / 4 + "px"
+    })
+</script>
