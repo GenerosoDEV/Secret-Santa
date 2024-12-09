@@ -1,5 +1,7 @@
 from sqlite3 import Error
-import sqlite3
+import sqlite3, os
+
+os.makedirs("./data", exist_ok=True)
 
 def connectToDatabase():
     caminho = './data/data.db'
